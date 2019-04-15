@@ -17,6 +17,7 @@ const propTypes = {
   transcript: PropTypes.string,
   resetTranscript: PropTypes.func,
   startListening: PropTypes.func,
+  listening: PropTypes.bool,
   recognition : PropTypes.object,
   browserSupportsSpeechRecognition: PropTypes.bool
 }
@@ -52,7 +53,7 @@ class App extends Component {
   } 
 
   render() {
-    const { transcript, resetTranscript, startListening, browserSupportsSpeechRecognition } = this.props;
+    const { transcript, resetTranscript, startListening, listening, browserSupportsSpeechRecognition } = this.props;
     if (!browserSupportsSpeechRecognition) {
       return null
     }
@@ -61,7 +62,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <ReactTypingEffect 
-            text={transcript} speed={speedVal} className="apply-font apply-font-size" cursorClassName="text" resetTranscript={resetTranscript} startListening={startListening}/>
+            text={transcript} speed={speedVal} className="apply-font apply-font-size" cursorClassName="text" resetTranscript={resetTranscript} startListening={startListening}  listening={listening}/>
             <FontPicker
               apiKey="AIzaSyCpdeRd7M5AIGLNx6TH1Dov4Fki8LQJzJc"
               activeFontFamily={this.state.activeFontFamily}

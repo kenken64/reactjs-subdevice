@@ -67,7 +67,9 @@ class TypingEffect extends Component {
         this._timeout = setTimeout(() => {
           this.erase();
           this.props.resetTranscript();
-          this.props.startListening();
+          if(!this.props.listening){
+            this.props.startListening();
+          }
         }, this.props.speed);
       });
     }
@@ -85,6 +87,7 @@ class TypingEffect extends Component {
       cursorClassName,
       resetTranscript,
       startListening,
+      listening,
       ...otherProps
     } = this.props;
     const { displayText } = this.state;
@@ -123,6 +126,8 @@ TypingEffect.propTypes = {
   cursor: PropTypes.string,
   cursorClassName: PropTypes.string,
   resetTranscript: PropTypes.func,
+  startListening: PropTypes.func,
+  listening: PropTypes.bool,
 };
 
 export default TypingEffect
