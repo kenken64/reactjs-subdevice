@@ -1,28 +1,86 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import FontPicker from "font-picker-react";
+import PropTypes from "prop-types";
+import ReactTypingEffect from './ReactTypingEffect';
+import SpeechRecognition from 'react-speech-recognition'
+import ReactFlagsSelect from 'react-flags-select';
+import 'react-flags-select/css/react-flags-select.css';
 import './App.css';
 
+const options = {
+  autoStart: true,
+  continuous: true
+}
+//
+const propTypes = {
+  // Props injected by SpeechRecognition
+  transcript: PropTypes.string,
+  resetTranscript: PropTypes.func,
+  startListening: PropTypes.func,
+  recognition : PropTypes.object,
+  browserSupportsSpeechRecognition: PropTypes.bool
+}
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.onSelectFlag = this.onSelectFlag.bind(this);
+    this.state = {
+      activeFontFamily: "Open Sans",
+    };
+  }
+
+  reset() {
+    this.setState({
+      transcript: undefined,
+    });
+  }
+
+  onSelectFlag(countryCode){
+    if(countryCode === 'GB'){
+      console.log("Great Britian");
+      this.props.recognition.lang = "en-GB";
+    }
+    else if(countryCode === 'CN'){
+      console.log("China");
+      this.props.recognition.lang = "zh-CN";
+    }else{
+      console.log("USA");
+      this.props.recognition.lang = "en-US";
+    }
+    
+  } 
+
   render() {
+    const { transcript, resetTranscript, startListening, browserSupportsSpeechRecognition } = this.props;
+    if (!browserSupportsSpeechRecognition) {
+      return null
+    }
+    const speedVal =1;
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <ReactTypingEffect 
+            text={transcript} speed={speedVal} className="apply-font apply-font-size" cursorClassName="text" resetTranscript={resetTranscript} startListening={startListening}/>
+            <FontPicker
+              apiKey="AIzaSyCpdeRd7M5AIGLNx6TH1Dov4Fki8LQJzJc"
+              activeFontFamily={this.state.activeFontFamily}
+              onChange={nextFont =>
+                this.setState({
+                  activeFontFamily: nextFont.family,
+                })
+              }
+            />
+            <ReactFlagsSelect
+                countries={["US", "GB", "CN"]} defaultCountry="US"
+                onSelect={this.onSelectFlag}/>
         </header>
+        
       </div>
+      
     );
   }
 }
 
-export default App;
+App.propTypes = propTypes
+export default SpeechRecognition(options)(App);
