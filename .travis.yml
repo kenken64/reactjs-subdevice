@@ -9,7 +9,7 @@ script:
   - docker run kenken64/subsdevices:v1 npm run test -- --coverage
 
 deploy:
-  provider: eslaticbeanstalk
+  provider: elasticbeanstalk
   region: "ap-southeast-1"
   app: "docker-subdevices"
   env: "DockerSubdevices-env"
