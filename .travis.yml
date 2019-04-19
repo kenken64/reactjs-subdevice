@@ -6,4 +6,4 @@ before install:
   - docker build -t kenken64/subsdevices -f Dockerfile.dev .
 
 script: 
-  - docker run kenken64/subsdevice npm run test -- --coverage
+  - docker run kenken64/subsdevices npm run test -- --coverage
