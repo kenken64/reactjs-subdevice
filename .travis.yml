@@ -3,7 +3,7 @@ services:
   - docker
 
 before install:
-  - docker build -t kenken64/subsdevice -f Dockerfile.dev .
+  - docker build -t kenken64/subsdevices -f Dockerfile.dev .
 
 script: 
   - docker run kenken64/subsdevice npm run test -- --coverage
